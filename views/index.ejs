@@ -117,10 +117,10 @@
 								<div id="tab1" class="tab-pane active">
 									<div class="products-slick" data-nav="#slick-nav-1">
 										<!-- product -->
-											
+											<% for( let index = 0; index < products.length; index++ ) { %>
 											<div class="product">
 												<div class="product-img">
-													<img src="./img/product01.png" alt="">
+													<img src=" <%- products[index].thumbnail %>  " alt="">
 													<div class="product-label">
 														<span class="sale">-30%</span>
 														<span class="new">NEW</span>
@@ -128,14 +128,16 @@
 												</div>
 												<div class="product-body">
 													<p class="product-category">Category</p>
-													<h3 class="product-name"><a href="product-details">product name doesn't go here</a></h3>
-													<h4 class="product-price">$920.00 <del class="product-old-price">$990.00</del></h4>
+													<h3 class="product-name">
+														<a href="products/<%-products[index].id %> ">
+														<%- products[index].title %>
+														</a>
+													</h3>
+													<h3 class="product-price">$<%- Math.floor(products[index].price) -  Math.floor(products[index].discountPercentage) %>  <del class="product-old-price">$<%- Math.round(products[index].price) %> </del></h3>
 													<div class="product-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
+														<% for( let i = 0; i < products[index].rating; i++ ) { %>
+															<i class="fa fa-star"></i>
+														<% } %>
 													</div>
 													<div class="product-btns">
 														<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
@@ -147,6 +149,7 @@
 													<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 												</div>
 											</div>
+											<% } %>
 
 										<!-- <div class="product">
 											<div class="product-img">
