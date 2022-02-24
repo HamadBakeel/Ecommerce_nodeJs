@@ -11,7 +11,7 @@ app.listen(PORT);
 
 
 app.get('/',(req,response)=>{
-    fetch('https://dummyjson.com/products?limit=12&select=id,title,price,rating,discountPercentage,thumbnail')
+    fetch('https://dummyjson.com/products?limit=12&select=id,title,price,rating,discountPercentage,thumbnail,category')
         .then(res => res.json())
         .then(r1 =>
             {fetch('https://dummyjson.com/products/categories')
@@ -36,7 +36,20 @@ app.get("/products?:category", (req, response) => {
                 .then(res => res.json())
                 .then(res => response.render('categories', { products: res.products, categories: r2 }))
         });
-})
+});
+
+app.get('/products/search?:q',(req,res)=>{
+    let url = 'https://dummyjson.com/products/search?q=' +req.query.q;
+    // let url = 'https://dummyjson.com/products/search?q=phone';
+    console.log(req.query.q);
+    fetch(url)
+        .then(r1 => r1.json())
+        .then(r1 => {
+            fetch('https://dummyjson.com/products/categories')
+            .then(r2 => r2.json())
+            .then(r2 => res.render("search",{products: r1.products, categories: r2}));
+        })
+});
 
 
 app.get("/products/:p_id?", (req, response) => {
@@ -58,11 +71,7 @@ app.get("/products/:p_id?", (req, response) => {
 
 
 
-// app.get('/categories',(req,res)=>{
-//     fetch('https://dummyjson.com/products/categories')
-//                     .then(r2 => r2.json())
-//                     .then(r2 => res.render("categories",{categories: r2}));
-// })
+
 
 
 app.get('/index',(req,res)=>{
@@ -77,3 +86,6 @@ app.get('/product-details',(req,res)=>{
 app.get('/checkout',(req,res)=>{
     res.render("checkout");
 })
+// app.get('/blank',(req,res)=>{
+//     res.render("blank");
+// })
